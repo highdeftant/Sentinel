@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentinel</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar panel">
+        <div>
+          <p class="eyebrow">Kakusei Sentinel</p>
+          <h1>Host operator dashboard</h1>
+          <p class="subtle">Services, ports, host health, and thermal state from one local console.</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="refresh-button" class="primary-button">Refresh snapshot</button>
+          <div class="stamp-block">
+            <span class="label">Last snapshot</span>
+            <strong id="last-updated">—</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section class="panel metrics-panel">
+          <div class="panel-header">
+            <h2>Host summary</h2>
+            <span id="summary-status" class="chip">idle</span>
+          </div>
+          <div id="summary-grid" class="summary-grid"></div>
+        </section>
+
+        <section class="panel temperatures-panel">
+          <div class="panel-header">
+            <h2>Thermals</h2>
+            <span class="chip muted">/sys/class/thermal</span>
+          </div>
+          <div id="temperature-list" class="temperature-list"></div>
+        </section>
+
+        <section class="panel listeners-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Listening services</h2>
+              <p class="subtle">Filter local listeners by port, process, unit, scope, or protocol.</p>
+            </div>
+            <span id="listener-count" class="chip">0 / 0</span>
+          </div>
+          <div class="listener-filters">
+            <label class="filter-field filter-search">
+              <span class="label">Search</span>
+              <input
+                id="listener-search"
+                type="search"
+                placeholder="22, ssh, systemd, lan, 11500"
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="filter-field">
+              <span class="label">Scope</span>
+              <select id="scope-filter">
+                <option value="all">All scopes</option>
+                <option value="loopback">Loopback</option>
+                <option value="lan">LAN</option>
+                <option value="all-ifaces">All interfaces</option>
+              </select>
+            </label>
+
+            <label class="filter-field">
+              <span class="label">Protocol</span>
+              <select id="protocol-filter">
+                <option value="all">All protocols</option>
+                <option value="tcp">TCP</option>
+                <option value="udp">UDP</option>
+              </select>
+            </label>
+
+            <label class="filter-toggle">
+              <input id="managed-only-filter" type="checkbox" />
+              <span>Managed units only</span>
+            </label>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Proto</th>
+                  <th>Port</th>
+                  <th>Port class</th>
+                  <th>Bind</th>
+                  <th>Scope</th>
+                  <th>Risk</th>
+                  <th>Process</th>
+                  <th>PID</th>
+                  <th>Unit</th>
+                  <th>Unit scope</th>
+                </tr>
+              </thead>
+              <tbody id="listeners-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel detail-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Service detail</h2>
+              <p class="subtle detail-heading">Unit <strong id="detail-unit">—</strong> · PID <strong id="detail-pid">—</strong></p>
+            </div>
+            <button id="refresh-detail-button" class="primary-button secondary">Refresh detail</button>
+          </div>
+
+          <div id="detail-summary" class="detail-summary"></div>
+
+          <div class="detail-block">
+            <div class="panel-header compact">
+              <h3>Active probe</h3>
+              <span class="chip muted">tcp/http</span>
+            </div>
+            <div id="detail-health" class="detail-summary"></div>
+          </div>
+
+          <div class="detail-block">
+            <div class="panel-header compact">
+              <h3>systemctl status</h3>
+              <span class="chip muted">status --lines 20</span>
+            </div>
+            <div id="detail-status" class="log-box"></div>
+          </div>
+
+          <div class="detail-block">
+            <div class="panel-header compact">
+              <h3>Recent journal</h3>
+              <span class="chip muted">journalctl -n 20</span>
+            </div>
+            <div id="detail-logs" class="log-box"></div>
+          </div>
+
+          <div class="detail-block">
+            <div class="panel-header compact">
+              <h3>Detail warnings</h3>
+              <span class="chip muted">best effort</span>
+            </div>
+            <ul id="detail-warnings" class="warning-list"></ul>
+          </div>
+        </section>
+
+        <section class="panel warnings-panel">
+          <div class="panel-header">
+            <h2>Collector warnings</h2>
+            <span class="chip muted">best effort</span>
+          </div>
+          <ul id="warnings-list" class="warning-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
