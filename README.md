@@ -62,29 +62,6 @@ For a browser-only dev server:
 npm run dev -- --host 0.0.0.0
 ```
 
-## Default watched services
-
-Sentinel ships with a local watchlist aimed at this machine's current operator workflow.
-
-| Group | Service | Endpoint |
-| --- | --- | --- |
-| Web | sentinel-web-dashboard | `tcp://127.0.0.1:11500` |
-| Web | yardline-web-dev | `tcp://127.0.0.1:5173` |
-| Web | weatherbot-web-dashboard | `tcp://127.0.0.1:5000` |
-| Web | honcho-api | `tcp://172.168.0.17:8000` |
-| Web | nextcloud-http | `tcp://127.0.0.1:8080` |
-| Web | nextcloud-https | `tcp://127.0.0.1:8443` |
-| Web | kakusei-landing-static | `tcp://127.0.0.1:8888` |
-| Web | dev-site-template-vite | `tcp://127.0.0.1:1420` |
-| Web | camofox-browser-server | `tcp://127.0.0.1:9377` |
-| Infra | minio-s3-api | `tcp://127.0.0.1:9000` |
-| Infra | minio-web-console | `tcp://127.0.0.1:9001` |
-| Infra | graffiti-postgres-docker | `tcp://127.0.0.1:5433` |
-| Hermes | hermes-gateway-default | `tcp://127.0.0.1:8644` |
-| Hermes | hermes-gateway-spoof | `tcp://127.0.0.1:8645` |
-| Hermes | hermes-gateway-tracie | `tcp://127.0.0.1:8646` |
-| Game | starbound-server | `tcp://127.0.0.1:21025` |
-
 ## Custom watchlist
 
 Override the default watched ports with `SENTINEL_WATCH_PORTS`.
